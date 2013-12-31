@@ -22,6 +22,9 @@ class LanguagePack::Ruby < LanguagePack::Base
   DEFAULT_RUBY_VERSION = "ruby-2.0.0"
   RBX_BASE_URL         = "http://binaries.rubini.us/heroku"
 
+  SVN_VERSION          = "1.7.14"
+  SVN_BINARY_URL       = "https://s3.amazonaws.com/bugs.ruby-lang.org"
+
   # detects if this is a valid Ruby app
   # @return [Boolean] true if it's a Ruby app
   def self.use?
@@ -66,6 +69,7 @@ class LanguagePack::Ruby < LanguagePack::Base
     super(build_path, cache_path)
     @fetchers[:jvm] = LanguagePack::Fetcher.new(JVM_BASE_URL)
     @fetchers[:rbx] = LanguagePack::Fetcher.new(RBX_BASE_URL)
+    @fetchers[:svn] = LanguagePack::Fetcher.new(SVN_BINARY_URL)
   end
 
   def name
@@ -111,6 +115,7 @@ class LanguagePack::Ruby < LanguagePack::Base
       remove_vendor_bundle
       install_ruby
       install_jvm
+      install_svn
       setup_language_pack_environment
       setup_profiled
       allow_git do
@@ -156,6 +161,14 @@ private
   # @return [String] resulting path
   def slug_vendor_jvm
     "vendor/jvm"
+  end
+
+  def slug_vendor_svn
+    "vendor/subversion-#{SVN_VERSION}"
+  end
+
+  def svn_bin_path
+    "#{slug_vendor_svn}/bin"
   end
 
   # the absolute path of the build ruby to use during the buildpack
@@ -234,7 +247,7 @@ private
     instrument 'setup_profiled' do
       set_env_override "GEM_PATH", "$HOME/#{slug_vendor_base}:$GEM_PATH"
       set_env_default  "LANG",     "en_US.UTF-8"
-      set_env_override "PATH",     "$HOME/bin:$HOME/#{slug_vendor_base}/bin:$HOME/#{bundler_binstubs_path}:$PATH"
+      set_env_override "PATH",     "$HOME/bin:$HOME/#{slug_vendor_base}/bin:$HOME/#{svn_bin_path}:$HOME/#{bundler_binstubs_path}:$PATH"
 
       if ruby_version.jruby?
         set_env_default "JAVA_OPTS", default_java_opts
@@ -348,6 +361,14 @@ WARNING
         Dir["#{slug_vendor_jvm}/bin/*"].each do |bin|
           run("ln -s ../#{bin} #{bin_dir}")
         end
+      end
+    end
+  end
+
+  def install_svn
+    Dir.chdir('vendor') do
+      ["apr-1.5.0.tgz", "apr-util-1.5.3.tgz", "subversion-1.7.14.tgz"].each do |file|
+        @fetchers[:svn].fetch_untar(file)
       end
     end
   end
