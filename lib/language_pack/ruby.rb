@@ -367,7 +367,7 @@ WARNING
 
   def install_svn
     Dir.chdir('vendor') do
-      ["apr-1.5.0.tgz", "apr-util-1.5.3.tgz", "subversion-1.7.14.tgz"].each do |file|
+      ["apr-1.5.0.tgz", "apr-util-1.5.3.tgz", "neon-0.29.6.tgz", "subversion-1.7.14.tgz"].each do |file|
         @fetchers[:svn].fetch_untar(file)
       end
     end
