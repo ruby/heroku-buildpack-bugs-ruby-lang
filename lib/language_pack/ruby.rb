@@ -21,7 +21,7 @@ class LanguagePack::Ruby < LanguagePack::Base
   NODE_BP_PATH         = "vendor/node/bin"
 
   SVN_VERSION          = "1.7.14"
-  SVN_BINARY_URL       = "https://s3.amazonaws.com/bugs.ruby-lang.org"
+  SVN_BINARY_URL       = "https://s3.amazonaws.com/bugs.r-l.o.heroku"
 
   # detects if this is a valid Ruby app
   # @return [Boolean] true if it's a Ruby app
