@@ -10,7 +10,7 @@ curl -sSL -O https://s3.amazonaws.com/bugs.r-l.o.heroku/subversion-1.7.14.tgz
 
 echo "       done."
 
-echo "-----> Unpack subversion bbinaries."
+echo "-----> Unpack subversion binaries."
 
 tar xf apr-1.5.0.tgz -C $1/vendor
 tar xf apr-util-1.5.3.tgz -C $1/vendor
