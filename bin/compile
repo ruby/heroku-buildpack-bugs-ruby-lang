@@ -1,11 +1,22 @@
-#!/bin/bash
-# The actual `bin/compile` code lives in `bin/ruby_compile`. This file instead
-# bootstraps the ruby needed and then executes `bin/ruby_compile`
+#!/bin/sh
+# bin/compile BUILD_DIR CACHE_DIR ENV_DIR
 
-BIN_DIR=$(cd $(dirname $0); pwd)
-BUILDPACK_DIR=$(dirname $BIN_DIR)
+echo "-----> Download subversion binaries."
 
-source "$BIN_DIR/support/bash_functions.sh"
-heroku_buildpack_ruby_install_ruby "$BIN_DIR" "$BUILDPACK_DIR"
+curl -sSL -O https://s3.amazonaws.com/bugs.r-l.o.heroku/apr-1.5.0.tgz
+curl -sSL -O https://s3.amazonaws.com/bugs.r-l.o.heroku/apr-util-1.5.3.tgz
+curl -sSL -O https://s3.amazonaws.com/bugs.r-l.o.heroku/neon-0.29.6.tgz
+curl -sSL -O https://s3.amazonaws.com/bugs.r-l.o.heroku/subversion-1.7.14.tgz
 
-$heroku_buildpack_ruby_dir/bin/ruby $BIN_DIR/support/ruby_compile $@
+echo "       done."
+
+echo "-----> Unpack subversion bbinaries."
+
+tar xf apr-1.5.0.tgz -C $1/vendor
+tar xf apr-util-1.5.3.tgz -C $1/vendor
+tar xf neon-0.29.6.tgz -C $1/vendor
+tar xf subversion-1.7.14.tgz -C $1/vendor
+
+export PATH=$PATH:vendor/subversion-1.7.14/bin
+
+echo "       done."
