@@ -23,6 +23,6 @@ echo "       done."
 
 echo "-----> clone ruby git repository."
 
-git clone --bare https://github.com/ruby/ruby.git $1/repos/git.ruby-lang.org/ruby
+git clone --bare https://github.com/ruby/ruby.git $1/repos/git/ruby
 
 echo "       done."
