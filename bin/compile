@@ -1,6 +1,12 @@
 #!/bin/sh
 # bin/compile BUILD_DIR CACHE_DIR ENV_DIR
 
+echo "-----> cleanup apt cache."
+
+rm -rf /var/lib/apt/lists/*
+
+echo "       done."
+
 echo "-----> clone ruby git repository."
 
 git clone --bare https://github.com/ruby/ruby.git $1/repos/git/ruby
