@@ -4,12 +4,12 @@
 echo "-----> clone ruby git repository."
 
 mkdir -p ~/.ssh
-cat "$3/MATZBOT_PRIVATE_KEY" > ~/.ssh/id_rsa
-echo >> ~/.ssh/id_rsa
-chmod 600 ~/.ssh/id_rsa
+cat "$3/MATZBOT_PRIVATE_KEY" > ~/.ssh/id_ed25519
+echo >> ~/.ssh/id_ed25519
+chmod 600 ~/.ssh/id_ed25519
 
 eval "$(ssh-agent -s)"
-ssh-add ~/.ssh/id_rsa
+ssh-add ~/.ssh/id_ed25519
 
 GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone --bare git@git.ruby-lang.org:ruby.git $1/repos/git/ruby
 
