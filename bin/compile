@@ -13,4 +13,9 @@ ssh-add ~/.ssh/id_ed25519
 
 GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone --bare git@git.ruby-lang.org:ruby.git $1/repos/git/ruby
 
+mkdir -p $1/.ssh
+cat "$3/MATZBOT_PRIVATE_KEY" > $1/.ssh/id_ed25519
+echo >> $1/.ssh/id_ed25519
+chmod 600 $1/.ssh/id_ed25519
+
 echo "       done."
