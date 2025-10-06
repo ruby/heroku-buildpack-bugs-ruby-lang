@@ -6,7 +6,7 @@ echo "-----> clone ruby git repository."
 mkdir -p ~/.ssh
 echo $MATZBOT_PRIVATE_KEY > ~/.ssh/id_ed25519
 chmod 600 ~/.ssh/id_ed25519
-ssh-keyscan git.ruby-lang.org >> ~/.ssh/known_hosts
+ssh-keyscan -H git.ruby-lang.org >> ~/.ssh/known_hosts
 
 git clone --bare git@git.ruby-lang.org:ruby.git $1/repos/git/ruby
 
