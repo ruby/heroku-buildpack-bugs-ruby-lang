@@ -4,16 +4,9 @@
 echo "-----> clone ruby git repository."
 
 mkdir -p ~/.ssh
-
-echo "Host *" >> ~/.ssh/config
-echo "   StrictHostKeyChecking no" >> ~/.ssh/config
-echo "   UserKnownHostsFile /dev/null" >> ~/.ssh/config
-echo "   LogLevel ERROR" >> ~/.ssh/config
-
 echo $MATZBOT_PRIVATE_KEY > ~/.ssh/id_ed25519
 chmod 600 ~/.ssh/id_ed25519
-ssh-keyscan -H git.ruby-lang.org >> ~/.ssh/known_hosts
 
-git clone --bare git@git.ruby-lang.org:ruby.git $1/repos/git/ruby
+GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone --bare git@git.ruby-lang.org:ruby.git $1/repos/git/ruby
 
 echo "       done."
