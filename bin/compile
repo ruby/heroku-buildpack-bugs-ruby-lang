@@ -4,10 +4,9 @@
 echo "-----> clone ruby git repository."
 
 mkdir -p ~/.ssh
-cat "$ENV_DIR/MATZBOT_PRIVATE_KEY" > ~/.ssh/id_rsa
+cat "$3/MATZBOT_PRIVATE_KEY" > ~/.ssh/id_rsa
 echo >> ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
-cat ~/.ssh/id_rsa
 
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/id_rsa
